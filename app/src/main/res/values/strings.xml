@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">StepicCourse</string>
+    <string name="action_settings">Settings</string>
+    <string name="mainActivityCaption">Bands</string>
+    <string name="descripitonCaption">Description</string>
+    <string name="pict_url">Null</string>
+    <string name="emptyCover">Empty Cover</string>
+    <string name="album_song_sep">,</string>
+    <string name="album_song_dot">·</string>
+
+    <plurals name="album_plurals">
+        <item quantity="zero">No albums</item>
+        <item quantity="one">%1$d album</item>
+        <item quantity="two">%1$d albums</item>
+        <item quantity="few">%1$d albums</item>
+        <item quantity="many">%1$d albums</item>
+        <item quantity="other">%1$d albums</item>
+    </plurals>
+
+    <plurals name="track_plurals">
+        <item quantity="zero">No songs</item>
+        <item quantity="one">%1$d song</item>
+        <item quantity="two">%1$d songs</item>
+        <item quantity="few">%1$d songs</item>
+        <item quantity="many">%1$d songs</item>
+        <item quantity="other">%1$d songs</item>
+    </plurals>
+</resources>

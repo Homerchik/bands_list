@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="140dp">
+
+    <ImageView
+        android:id="@+id/small_cover_iw"
+        android:contentDescription="@string/emptyCover"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/band_name"
+        android:layout_toEndOf="@id/small_cover_iw"
+        android:fontFamily="TextView"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/bandName"
+        android:layout_marginTop="17dp"/>
+
+    <android.widget.TextView
+        android:id="@+id/band_genres"
+        android:layout_toEndOf="@id/small_cover_iw"
+        android:layout_below="@id/band_name"
+        android:layout_marginTop="7dp"
+        android:fontFamily="TextView"
+        android:textColor="@color/bandGenres"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textIsSelectable="false"
+        android:textStyle="normal"/>
+
+    <android.widget.TextView
+        android:id="@+id/band_albums"
+        android:fontFamily="TextView"
+        android:layout_toEndOf="@id/small_cover_iw"
+        android:layout_below="@id/band_genres"
+        android:layout_marginTop="27dp"
+        android:textColor="@color/bandGenres"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textIsSelectable="false"
+        android:textStyle="normal"/>
+
+    <android.widget.TextView
+        android:id="@+id/band_sep"
+        android:fontFamily="TextView"
+        android:layout_toEndOf="@id/band_albums"
+        android:layout_marginTop="27dp"
+        android:textColor="@color/bandGenres"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        android:text="@string/album_song_sep"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textIsSelectable="false"
+        android:textStyle="normal"/>
+
+    <android.widget.TextView
+        android:id="@+id/band_songs"
+        android:fontFamily="TextView"
+        android:layout_toEndOf="@id/band_sep"
+        android:layout_below="@id/band_genres"
+        android:layout_marginTop="27dp"
+        android:textColor="@color/bandGenres"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textIsSelectable="false"
+        android:textStyle="normal"/>
+</RelativeLayout>
