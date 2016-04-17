@@ -11,14 +11,12 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        />
+        layout="@layout/toolbar" />
 
     <ListView
         android:layout_marginTop="55dp"
         android:id="@+id/main_acivity_lw"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
 </android.widget.RelativeLayout>
