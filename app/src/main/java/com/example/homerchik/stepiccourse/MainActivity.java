@@ -14,10 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.example.homerchik.stepiccourse.imageLoader.Cache;
 import com.example.homerchik.stepiccourse.model.Band;
 import com.example.homerchik.stepiccourse.model.BandItemAdapter;
+import com.example.homerchik.stepiccourse.model.HttpGetBandArray;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
@@ -58,24 +58,12 @@ public class MainActivity extends AppCompatActivity {
         if (ni.isConnected()) {
             Log.println(Log.DEBUG, ACTIVITY_SERVICE, "Network is connected");
         }
-        try {
-            URL url = new URL(DATA_URL);
-            new HttpGetBandObjects().execute(url, smallCoverCache);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        ListView lw = (ListView) findViewById(R.id.main_acivity_lw);
-        lw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Band dataToSend = MODEL.get(position);
-                Intent intent = new Intent(getBaseContext(), DescriptionActivity.class);
-                intent.putExtra("dataChunk", dataToSend);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getBaseContext().startActivity(intent);
-            }
-        });
+
+        ListView listView = (ListView) findViewById(R.id.main_acivity_lw);
+        HttpGetBandArray task = new HttpGetBandArray(getBaseContext(), getLayoutInflater(), listView,
+                smallCoverCache, MODEL);
+        task.execute(DATA_URL);
     }
 
     @Override
@@ -85,67 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onStop() {super.onStop();}
-
-    public class HttpGetBandObjects
-            extends AsyncTask<Object, Void, ArrayList<Band>> {
-        URL url = null;
-        Cache cache;
-        String TAG = "Band data getter says";
-        private Context c;
-
-        protected ArrayList<Band> doInBackground(Object... inData) {
-            try {
-                url = (URL) inData[0];
-                cache = (Cache) inData[1];
-                c = getBaseContext();
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                setupConnection(con);
-                Gson gson = new Gson();
-                Type collectionType = new TypeToken<ArrayList<Band>>() {}.getType();
-                MODEL = gson.fromJson(getData(con), collectionType);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return MODEL;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Band> bandArr) {
-            BandItemAdapter sAdapter = new BandItemAdapter(getLayoutInflater(), c, cache, bandArr, R.layout.band_layout);
-            ListView lw = (ListView) findViewById(R.id.main_acivity_lw);
-            if (!(lw == null)) {
-                lw.setAdapter(sAdapter);
-            }
-        }
-
-        protected  void setupConnection(HttpURLConnection con){
-            try {
-                con.setReadTimeout(10000);
-                con.setConnectTimeout(15000);
-                con.setRequestMethod("GET");
-                con.setDoInput(true);
-                con.connect();
-            }
-            catch (Exception e){
-                Log.d(TAG, "Error establishing connection");
-            }
-        }
-
-        protected String getData(HttpURLConnection con){
-            StringBuilder response = new StringBuilder();
-            try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                response.append(br.readLine());
-                br.close();
-            }
-            catch (Exception e){
-                Log.d(TAG, "Error getting data");
-            }
-            con.disconnect();
-            return response.toString();
-        }
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
