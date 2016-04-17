@@ -48,13 +48,13 @@ public class BandItemAdapter extends BaseAdapter {
         return position;
     }
 
-    public void loadBitmap(String url, ImageView imageView, Object ... params){
+    public void loadBitmap(String url, ImageView imageView, Band item){
             if (AsyncDrawableWrapper.cancelPotentialWork(url, imageView)) {
                 final HttpGetCover task = new HttpGetCover(cache, imageView, HEIGHT, WIDTH);
                 final AsyncDrawableWrapper.AsyncDrawable asyncDrawable =
                     new AsyncDrawableWrapper.AsyncDrawable(null, null, task);
                 imageView.setImageDrawable(asyncDrawable);
-                task.execute(params);
+                task.execute(url, item);
             }
     }
 

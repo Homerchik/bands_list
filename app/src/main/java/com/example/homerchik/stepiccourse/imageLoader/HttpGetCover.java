@@ -36,17 +36,40 @@ public class HttpGetCover extends AsyncTask<Object, Void, Bitmap> {
             opts.inPreferredConfig = Bitmap.Config.RGB_565;
             opts.inSampleSize = 1;
             opts.inScaled = true;
-            opts.outWidth = width;
-            opts.outHeight = heigth;
+//            opts.outWidth = width;
+//            opts.outHeight = heigth;
             opts.inPreferQualityOverSpeed = false;
         }
 
+//    private Bitmap getImageBitmap() {
+//            Bitmap bm = null;
+//            try {
+//                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//                con.connect();
+//                InputStream is = con.getInputStream();
+//                BufferedInputStream bis = new BufferedInputStream(is);
+//                bm = BitmapFactory.decodeStream(bis, null, opts);
+//                ImageView iw = (ImageView) findViewById(R.id.iw_big_cover);
+//                int w = getBaseContext().getResources().getDisplayMetrics().widthPixels;
+//                Log.d("WIDTH", String.valueOf(w));
+//                Log.d("WIDTH", String.valueOf(h));
+//
+//                bis.close();
+//                is.close();
+//                con.disconnect();
+//            } catch (Exception e) {
+//                Log.e("DEBUG", "Error getting bitmap", e);
+//            }
+//            return bm;
+//        }
+
         private Bitmap getBitmap(String url) {
             setImageOpts();
+            Bitmap bm = null;
             try {
                 this.url = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) this.url.openConnection();
-                return BitmapFactory.decodeStream(
+                bm = BitmapFactory.decodeStream(
                     new BufferedInputStream(con.getInputStream()), null, opts);
             }
             catch (MalformedURLException e){
@@ -57,16 +80,26 @@ public class HttpGetCover extends AsyncTask<Object, Void, Bitmap> {
                 Log.d(logTag, "I/O exception during connection caught");
                 e.printStackTrace();
             }
-            return null;
+            if (bm != null){
+                if (width == heigth && width != 0)
+                    bm = Bitmap.createScaledBitmap(bm, width, heigth, false);
+                else if (width != 0){
+                    int h = bm.getHeight() * width/bm.getWidth();
+                    bm = Bitmap.createScaledBitmap(bm, width, h, false);
+                    bm = Bitmap.createBitmap(bm, 0, bm.getHeight() - h, width, imageViewRef.get().getHeight());
+                }
+            }
+            return bm;
         }
 
         @Override
         protected Bitmap doInBackground(Object... params) {
-            bandItem = (Band) params[0];
+            String url = (String) params[0];
+            bandItem = (Band) params[1];
 
             Bitmap bitmap = cache.getBitmapFromMemCache(bandItem.getName());
             if (bitmap == null) {
-                bitmap = getBitmap(bandItem.getSmallCoverUrl());
+                bitmap = getBitmap(url);
             }
             cache.addBitmapToMemCache(bandItem.getName(), bitmap);
             return bitmap;

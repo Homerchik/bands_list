@@ -28,8 +28,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private Cache cache;
-    private String DATA_URL = "http://download.cdn.yandex.net/mobilization-2016/artists.json";
+    Cache smallCoverCache;
+    String DATA_URL = "http://download.cdn.yandex.net/mobilization-2016/artists.json";
     private ArrayList<Band> MODEL = null;
 
     private void setToolbarCaption(Toolbar tb) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 4;
-        cache = new Cache(cacheSize);
+        smallCoverCache = new Cache(cacheSize);
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
         try {
             URL url = new URL(DATA_URL);
-            new HttpGetBandObjects().execute(url, cache);
+            new HttpGetBandObjects().execute(url, smallCoverCache);
         } catch (Exception e) {
             e.printStackTrace();
         }
