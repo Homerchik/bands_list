@@ -19,9 +19,6 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by homerchik on 4/3/16.
- */
 public class Band implements Serializable{
     private static final long serialVersionUID = 0L;
 
@@ -91,16 +88,8 @@ public class Band implements Serializable{
         return getSmall();
     }
 
-    public String getSmallCoverFileMask(){
-        return getName().concat("_small");
-    }
-
     public String getBigCoverUrl() {
         return getBig();
-    }
-
-    public String getBigCoverFileMask(){
-        return getBig().concat("_small");
     }
 
     public String getName(){
