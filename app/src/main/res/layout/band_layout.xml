@@ -6,7 +6,7 @@
     android:layout_height="140dp">
 
     <ImageView
-        android:id="@+id/small_cover_iw"
+        android:id="@+id/iw_small_cover"
         android:contentDescription="@string/emptyCover"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/band_name"
-        android:layout_toEndOf="@id/small_cover_iw"
+        android:layout_toEndOf="@id/iw_small_cover"
         android:fontFamily="TextView"
         android:textSize="17sp"
         android:textStyle="bold"
@@ -29,7 +29,7 @@
 
     <android.widget.TextView
         android:id="@+id/band_genres"
-        android:layout_toEndOf="@id/small_cover_iw"
+        android:layout_toEndOf="@id/iw_small_cover"
         android:layout_below="@id/band_name"
         android:layout_marginTop="7dp"
         android:fontFamily="TextView"
@@ -44,7 +44,7 @@
     <android.widget.TextView
         android:id="@+id/band_albums"
         android:fontFamily="TextView"
-        android:layout_toEndOf="@id/small_cover_iw"
+        android:layout_toEndOf="@id/iw_small_cover"
         android:layout_below="@id/band_genres"
         android:layout_marginTop="27dp"
         android:textColor="@color/bandGenres"

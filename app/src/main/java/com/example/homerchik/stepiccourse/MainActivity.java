@@ -2,8 +2,11 @@ package com.example.homerchik.stepiccourse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -20,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.homerchik.stepiccourse.model.Band;
@@ -32,21 +34,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-    private String EXCEPTION_TAG = "EXCEPTION CAUGHT";
+    private Bitmap mPlaceHolderBitmap = null;
     private String PROTOCOL = "http";
     private String HOST = "download.cdn.yandex.net";
     private String FILE = "/mobilization-2016/artists.json";
@@ -59,6 +60,41 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadBitmap(String url, ImageView imageView, Object ... params){
+            if (cancelPotentialWork(url, imageView)) {
+                final HttpGetCover task = new HttpGetCover(imageView);
+                final AsyncDrawable asyncDrawable =
+                    new AsyncDrawable(getResources(), mPlaceHolderBitmap, task);
+                imageView.setImageDrawable(asyncDrawable);
+                task.execute(params);
+            }
+        }
+
+    public static HttpGetCover getBitmapWorkerTask(ImageView imageView) {
+        if (imageView != null) {
+            final Drawable drawable = imageView.getDrawable();
+            if (drawable instanceof AsyncDrawable) {
+                final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
+                return asyncDrawable.getTask();
+            }
+        }
+        return null;
+    }
+
+
+    public static boolean cancelPotentialWork(String url, ImageView imageView) {
+        final HttpGetCover bitmapWorkerTask = getBitmapWorkerTask(imageView);
+        if (bitmapWorkerTask != null) {
+            final String bitmapData = bitmapWorkerTask.data;
+            if (bitmapData.equals("") || !bitmapData.equals(url)) {
+                bitmapWorkerTask.cancel(true);
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -100,38 +136,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onStop() {super.onStop();}
+
+    static class AsyncDrawable extends BitmapDrawable{
+        private final WeakReference<HttpGetCover> bitmapWorkerTaskRef;
+
+        public AsyncDrawable(Resources res, Bitmap bitmap, HttpGetCover task){
+            super(res, bitmap);
+            bitmapWorkerTaskRef = new WeakReference<>(task);
+        }
+
+        public HttpGetCover getTask(){
+            return bitmapWorkerTaskRef.get();
+        }
+
+
     }
 
     public class HttpGetBandObjects
             extends AsyncTask<Object, Void, ArrayList<Band>> {
-
+        URL url = null;
+        String TAG = "Band data getter says";
         private Context c;
 
         protected ArrayList<Band> doInBackground(Object... inData) {
             try {
-                URL url1 = (URL) inData[0];
+                url = (URL) inData[0];
                 c = getBaseContext();
-                HttpURLConnection con = (HttpURLConnection) url1.openConnection();
-                con.setReadTimeout(10000);
-                con.setConnectTimeout(15000);
-                con.setRequestMethod("GET");
-                con.setDoInput(true);
-                con.connect();
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                setupConnection(con);
                 Gson gson = new Gson();
-                StringBuilder response = new StringBuilder();
-                BufferedReader br =
-                        new BufferedReader(new InputStreamReader(con.getInputStream()));
-                try {
-                    response.append(br.readLine());
-                } finally {
-                    br.close();
-                    con.disconnect();
-                }
-                Type collectionType = new TypeToken<ArrayList<Band>>() {
-                }.getType();
-                model = gson.fromJson(response.toString(), collectionType);
+                Type collectionType = new TypeToken<ArrayList<Band>>() {}.getType();
+                model = gson.fromJson(getData(con), collectionType);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -142,132 +178,41 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Band> a) {
             CustomAdapter sAdapter = new CustomAdapter(c, a, R.layout.band_layout);
             ListView lw = (ListView) findViewById(R.id.main_acivity_lw);
-            try {
+            if (!(lw == null)) {
                 lw.setAdapter(sAdapter);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
-    }
 
-    public class HttpGetSmallCover extends AsyncTask<Object, Void, Bitmap> {
-        private URL url;
-        private ImageView iV;
-        private String fileName;
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-
-        private void setImageOpts() {
-            opts.inPreferredConfig = Bitmap.Config.RGB_565;
-            opts.inSampleSize = 1;
-            opts.inScaled = true;
-            opts.inPreferQualityOverSpeed = false;
-        }
-
-        private Bitmap getImageBitmap() {
-            Bitmap bm = null;
+        protected  void setupConnection(HttpURLConnection con){
             try {
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setReadTimeout(10000);
+                con.setConnectTimeout(15000);
+                con.setRequestMethod("GET");
+                con.setDoInput(true);
                 con.connect();
-                InputStream is = con.getInputStream();
-                BufferedInputStream bis = new BufferedInputStream(is);
-                bm = BitmapFactory.decodeStream(bis, null, opts);
-                bis.close();
-                is.close();
-                con.disconnect();
-            } catch (Exception e) {
-                Log.e("DEBUG", "Error getting bitmap", e);
             }
-            return bm;
+            catch (Exception e){
+                Log.d(TAG, "Error establishing connection");
+            }
         }
 
-        private void saveImage(File dir, String name, Bitmap bmp) {
-            FileOutputStream out = null;
-            File f;
+        protected String getData(HttpURLConnection con){
+            StringBuilder response = new StringBuilder();
             try {
-                f = File.createTempFile(name, null, dir);
-                out = new FileOutputStream(f);
-                bmp.compress(Bitmap.CompressFormat.JPEG, 50, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.flush();
-                        out.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                response.append(br.readLine());
+                br.close();
             }
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-            iV.setVisibility(View.INVISIBLE);
-        }
-
-        protected URL stringToURL(String url){
-            URL converted = null;
-            try{
-                converted = new URL(url);
+            catch (Exception e){
+                Log.d(TAG, "Error getting data");
             }
-            catch (MalformedURLException e){
-                Log.d(EXCEPTION_TAG, "Wrong formatted URL got");
-                e.printStackTrace();
-            }
-            return converted;
+            con.disconnect();
+            return response.toString();
         }
 
-
-        public FilenameFilter getFilterByFilename(final String filename){
-            return new FilenameFilter() {
-                public boolean accept(File dir, String name) {
-                    String pattern = "[A-z0-9.,/]*(".concat(filename).concat(")[0-9]*(.tmp)");
-                    Matcher p = Pattern.compile(pattern).matcher(name);
-                    return p.matches();
-                }
-            };
-        }
-
-        @Override
-        protected Bitmap doInBackground(Object... params) {
-            url = stringToURL((String) params[0]);
-            fileName = (String) params[1];
-            iV = (ImageView) params[2];
-            setImageOpts();
-            String filename = fileName;//Band.getFilenameFromUrl(u);
-            File[] files = getCacheDir().listFiles(getFilterByFilename(filename));
-            if (files.length != 0) {
-                return BitmapFactory.decodeFile(files[0].getAbsolutePath(), opts);
-            } else {
-                return getAndSaveBitmap(getCacheDir(), filename);
-            }
-        }
-
-        private Bitmap getAndSaveBitmap(File cache, String fname) {
-            Bitmap bm = null;
-            try {
-                bm = getImageBitmap();
-                saveImage(cache, fname, bm);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bm;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bm) {
-            Log.d("DEBUG", url.toString());
-            if (bm != null) {
-                Log.d("DEBUG", "Bitmap setted ok");
-                iV.setImageBitmap(bm);
-                iV.setVisibility(View.VISIBLE);
-            } else {
-                Log.d("DEBUG", "No bitmap found.");
-            }
-        }
     }
+
+
 
     public class CustomAdapter extends BaseAdapter {
         String TAG = "LIST VIEW ADAPTER says";
@@ -318,8 +263,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (bandItem.getSmallCoverUrl() != null) {
                 holder.smallIW.setTag(bandItem.getSmallCoverUrl());
-                new HttpGetSmallCover().execute(
-                        bandItem.getSmallCoverUrl(), bandItem.getSmallCoverFileMask(), holder.smallIW);
+                loadBitmap(bandItem.getSmallCoverUrl(), holder.smallIW, bandItem, context);
+//                new HttpGetCover().execute(
+//                        bandItem, context, holder.smallIW);
             } else {
                 Log.d(TAG, "No images found for the view setting default image");
                 holder.smallIW.setTag(null);
@@ -339,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
         public int position;
 
         public ViewHolder(View row) {
-            smallIW = (ImageView) row.findViewById(R.id.small_cover_iw);
+            smallIW = (ImageView) row.findViewById(R.id.iw_small_cover);
             bandName = (TextView) row.findViewById(R.id.band_name);
             bandGenres = (TextView) row.findViewById(R.id.band_genres);
             bandAlbums = (TextView) row.findViewById(R.id.band_albums);
@@ -368,4 +314,118 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    class HttpGetCover extends AsyncTask<Object, Void, Bitmap> {
+        String data="";
+        private URL url;
+        private String logTag = "HttpBitmapLoader";
+        private final WeakReference<ImageView> imageViewRef;
+        private Context context;
+        private Band bandItem;
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+
+        public HttpGetCover(ImageView imageView){
+            imageViewRef = new WeakReference<>(imageView);
+        }
+
+        private void setImageOpts() {
+            opts.inPreferredConfig = Bitmap.Config.RGB_565;
+            opts.inSampleSize = 1;
+            opts.inScaled = true;
+            opts.outWidth = 100;
+            opts.outHeight = 100;
+            opts.inPreferQualityOverSpeed = false;
+        }
+
+        private Bitmap getBitmap(String url) {
+            try {
+                this.url = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) this.url.openConnection();
+                return BitmapFactory.decodeStream(
+                    new BufferedInputStream(con.getInputStream()), null, opts);
+            }
+            catch (MalformedURLException e){
+                Log.d(logTag, "Malformed url - ".concat(url));
+                e.printStackTrace();
+            }
+            catch (IOException e){
+                Log.d(logTag, "I/O exception during connection caught");
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private void saveImage(File dir, String name, Bitmap bmp) {
+            FileOutputStream out = null;
+            File f;
+            try {
+                f = File.createTempFile(name, null, dir);
+                out = new FileOutputStream(f);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+            }
+            catch (Exception e) {
+                Log.d(logTag, "Error saving image occured!");
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    if (out != null) {
+                        out.flush();
+                        out.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    public FilenameFilter getFilterByFilename(final String filename){
+        return new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                String pattern = "[A-z0-9.,/]*(".concat(filename).concat(")[0-9]*(.tmp)");
+                Matcher p = Pattern.compile(pattern).matcher(name);
+                return p.matches();
+            }
+        };
+    }
+
+    @Override
+    protected Bitmap doInBackground(Object... params) {
+        bandItem = (Band) params[0];
+        context = (Context) params[1];
+        String filename = bandItem.getSmallCoverFileMask();
+        File[] files = context.getCacheDir().listFiles(getFilterByFilename(filename));
+        if (files.length != 0) {
+            return BitmapFactory.decodeFile(files[0].getAbsolutePath(), opts);
+        } else {
+            return getAndSaveBitmap();
+        }
+    }
+
+    private Bitmap getAndSaveBitmap() {
+        setImageOpts();
+        Bitmap bm = getBitmap(bandItem.getSmallCoverUrl());
+        saveImage(context.getCacheDir(), bandItem.getSmallCoverFileMask(), bm);
+        return bm;
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        if (isCancelled()) {
+            bitmap = null;
+        }
+
+        if (bitmap != null) {
+            final ImageView imageView = imageViewRef.get();
+            final HttpGetCover bitmapWorkerTask =
+                    getBitmapWorkerTask(imageView);
+            if (this == bitmapWorkerTask) {
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+    }
 }
+}
+
+
+
