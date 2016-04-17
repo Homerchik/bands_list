@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.homerchik.stepiccourse.imageLoader.Cache;
 import com.example.homerchik.stepiccourse.R;
 import com.example.homerchik.stepiccourse.imageLoader.AsyncDrawableWrapper;
@@ -61,7 +60,6 @@ public class BandItemAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
         if (convertView == null) {
             convertView = inflater.inflate(layoutId, null);
             holder = new ViewHolder(convertView);
@@ -69,15 +67,12 @@ public class BandItemAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         Band bandItem = data.get(position);
-
         holder.bandName.setText(bandItem.getName());
         holder.bandGenres.setText(bandItem.getStringGenres());
         holder.bandAlbums.setText(bandItem.getStringAlbums(context));
         holder.bandSongs.setText(bandItem.getStringTracks(context));
         holder.position = position;
-
         if (bandItem.getSmallCoverUrl() != null) {
             holder.smallIW.setTag(bandItem.getSmallCoverUrl());
             loadBitmap(bandItem.getSmallCoverUrl(), holder.smallIW, bandItem);
@@ -86,7 +81,6 @@ public class BandItemAdapter extends BaseAdapter {
             holder.smallIW.setTag(null);
             holder.smallIW.setImageBitmap(null);
         }
-
         return convertView;
     }
 
