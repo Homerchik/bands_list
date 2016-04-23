@@ -45,7 +45,9 @@ public class NoConActivity extends AppCompatActivity{
                 if (ni != null && ni.isConnected()) {
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getBaseContext().startActivity(intent);}
+                    getBaseContext().startActivity(intent);
+                    finish();
+                }
                 else {
                     mySnackbar.show();
                 }
