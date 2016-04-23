@@ -1,110 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/desc_acivity_layout"
-    android:gravity="start"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
-    tools:context="com.example.homerchik.stepiccourse.MainActivity">
+    android:layout_height="match_parent" >
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        />
-
-    <ImageView
-        android:id="@+id/iw_big_cover"
-        android:layout_below="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
-
-    <TextView
-        android:id="@+id/tw_genres"
-        android:layout_below="@id/iw_big_cover"
+    <android.widget.RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/desc_acivity_layout"
+        android:gravity="start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="TextView"
-        android:textColor="@color/bandGenres"
-        android:textAlignment="gravity"
-        android:textSize="15sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:textIsSelectable="false"
-        android:textStyle="normal" />
+        android:fitsSystemWindows="true"
+        tools:context="com.example.homerchik.stepiccourse.MainActivity">
 
-    <TextView
-        android:id="@+id/tw_albums"
-        android:layout_below="@id/tw_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="TextView"
-        android:textColor="@color/bandGenres"
-        android:textAlignment="gravity"
-        android:textSize="15sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:textIsSelectable="false"
-        android:textStyle="normal" />
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            />
 
-    <TextView
-        android:id="@+id/tw_album_songs_sep"
-        android:layout_toEndOf="@id/tw_albums"
-        android:layout_below="@id/tw_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/album_song_dot"
-        android:fontFamily="TextView"
-        android:textColor="@color/bandGenres"
-        android:textAlignment="gravity"
-        android:textSize="15sp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:textIsSelectable="false"
-        android:textStyle="normal" />
+        <ImageView
+            android:id="@+id/iw_big_cover"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
 
-    <TextView
-        android:id="@+id/tw_songs"
-        android:layout_toEndOf="@id/tw_album_songs_sep"
-        android:layout_below="@id/tw_genres"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="TextView"
-        android:textColor="@color/bandGenres"
-        android:textAlignment="gravity"
-        android:textSize="15sp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:textIsSelectable="false"
-        android:textStyle="normal" />
+        <TextView
+            android:id="@+id/tw_genres"
+            android:layout_below="@id/iw_big_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="TextView"
+            android:textColor="@color/bandGenres"
+            android:textAlignment="gravity"
+            android:textSize="15sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textIsSelectable="false"
+            android:textStyle="normal" />
 
-    <TextView
-        android:id="@+id/tw_desc_cap"
-        android:layout_below="@id/tw_albums"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="TextView"
-        android:textColor="@color/bandName"
-        android:textAlignment="gravity"
-        android:textSize="20sp"
-        android:text="@string/descripitonCaption"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:textIsSelectable="false"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tw_albums"
+            android:layout_below="@id/tw_genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="TextView"
+            android:textColor="@color/bandGenres"
+            android:textAlignment="gravity"
+            android:textSize="15sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textIsSelectable="false"
+            android:textStyle="normal" />
 
-    <TextView
-        android:id="@+id/tw_desc"
-        android:layout_below="@id/tw_desc_cap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="TextView"
-        android:textColor="@color/bandName"
-        android:textAlignment="gravity"
-        android:textSize="15sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:textIsSelectable="false"
-        android:textStyle="normal"/>
-</android.widget.RelativeLayout>
+        <TextView
+            android:id="@+id/tw_album_songs_sep"
+            android:layout_toEndOf="@id/tw_albums"
+            android:layout_below="@id/tw_genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/album_song_dot"
+            android:fontFamily="TextView"
+            android:textColor="@color/bandGenres"
+            android:textAlignment="gravity"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:textIsSelectable="false"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tw_songs"
+            android:layout_toEndOf="@id/tw_album_songs_sep"
+            android:layout_below="@id/tw_genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="TextView"
+            android:textColor="@color/bandGenres"
+            android:textAlignment="gravity"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:textIsSelectable="false"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tw_desc_cap"
+            android:layout_below="@id/tw_albums"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="TextView"
+            android:textColor="@color/bandName"
+            android:textAlignment="gravity"
+            android:textSize="20sp"
+            android:text="@string/descripitonCaption"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tw_desc"
+            android:layout_below="@id/tw_desc_cap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="TextView"
+            android:textColor="@color/bandName"
+            android:textAlignment="gravity"
+            android:textSize="15sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textIsSelectable="false"
+            android:textStyle="normal"/>
+    </android.widget.RelativeLayout>
+</ScrollView>
