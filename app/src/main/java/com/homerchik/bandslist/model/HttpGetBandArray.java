@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.homerchik.bandslist.DescriptionActivity;
 import com.homerchik.bandslist.NoConActivity;
-import com.example.homerchik.stepiccourse.R;
+import com.example.homerchik.bandslist.R;
 import com.homerchik.bandslist.imageLoader.Cache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

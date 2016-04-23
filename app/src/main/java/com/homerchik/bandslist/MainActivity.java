@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.example.homerchik.stepiccourse.R;
+import com.example.homerchik.bandslist.R;
 import com.homerchik.bandslist.imageLoader.Cache;
 import com.homerchik.bandslist.model.Band;
 import com.homerchik.bandslist.model.HttpGetBandArray;

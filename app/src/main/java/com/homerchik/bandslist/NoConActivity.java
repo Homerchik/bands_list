@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.homerchik.stepiccourse.R;
+import com.example.homerchik.bandslist.R;
 
 public class NoConActivity extends AppCompatActivity{
     private void setToolbarCaption(Toolbar tb) {

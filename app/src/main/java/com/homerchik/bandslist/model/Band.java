@@ -2,7 +2,7 @@ package com.homerchik.bandslist.model;
 
 import android.content.Context;
 
-import com.example.homerchik.stepiccourse.R;
+import com.example.homerchik.bandslist.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;

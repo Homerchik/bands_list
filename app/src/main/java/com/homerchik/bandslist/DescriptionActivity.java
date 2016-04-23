@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.homerchik.stepiccourse.R;
+import com.example.homerchik.bandslist.R;
 import com.homerchik.bandslist.imageLoader.AsyncDrawableWrapper;
 import com.homerchik.bandslist.imageLoader.Cache;
 import com.homerchik.bandslist.imageLoader.HttpGetCover;
