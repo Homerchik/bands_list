@@ -1,23 +1,11 @@
-package com.example.homerchik.stepiccourse.model;
+package com.homerchik.bandslist.model;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.util.Log;
 
 import com.example.homerchik.stepiccourse.R;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Band implements Serializable, Comparable{
     private static final long serialVersionUID = 0L;

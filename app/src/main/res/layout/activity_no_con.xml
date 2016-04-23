@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/purple"
-    tools:context="com.example.homerchik.stepiccourse.MainActivity">
+    tools:context="com.homerchik.bandslist.MainActivity">
 
     <include
         android:id="@+id/toolbar"

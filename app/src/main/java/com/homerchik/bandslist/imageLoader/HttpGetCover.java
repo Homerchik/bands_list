@@ -1,4 +1,4 @@
-package com.example.homerchik.stepiccourse.imageLoader;
+package com.homerchik.bandslist.imageLoader;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.homerchik.stepiccourse.model.Band;
+import com.homerchik.bandslist.model.Band;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;

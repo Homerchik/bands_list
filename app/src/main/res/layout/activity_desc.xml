@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        tools:context="com.example.homerchik.stepiccourse.MainActivity">
+        tools:context="com.homerchik.bandslist.MainActivity">
 
         <include
             android:id="@+id/toolbar"

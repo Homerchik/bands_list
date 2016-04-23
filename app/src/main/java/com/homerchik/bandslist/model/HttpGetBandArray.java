@@ -1,4 +1,4 @@
-package com.example.homerchik.stepiccourse.model;
+package com.homerchik.bandslist.model;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.example.homerchik.stepiccourse.DescriptionActivity;
-import com.example.homerchik.stepiccourse.NoConActivity;
+import com.homerchik.bandslist.DescriptionActivity;
+import com.homerchik.bandslist.NoConActivity;
 import com.example.homerchik.stepiccourse.R;
-import com.example.homerchik.stepiccourse.imageLoader.Cache;
+import com.homerchik.bandslist.imageLoader.Cache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;

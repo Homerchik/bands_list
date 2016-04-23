@@ -1,4 +1,4 @@
-package com.example.homerchik.stepiccourse.imageLoader;
+package com.homerchik.bandslist.imageLoader;
 
 import android.graphics.Bitmap;
 import android.util.LruCache;

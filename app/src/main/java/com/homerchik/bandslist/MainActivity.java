@@ -1,4 +1,4 @@
-package com.example.homerchik.stepiccourse;
+package com.homerchik.bandslist;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import com.example.homerchik.stepiccourse.imageLoader.Cache;
-import com.example.homerchik.stepiccourse.model.Band;
-import com.example.homerchik.stepiccourse.model.HttpGetBandArray;
+
+import com.example.homerchik.stepiccourse.R;
+import com.homerchik.bandslist.imageLoader.Cache;
+import com.homerchik.bandslist.model.Band;
+import com.homerchik.bandslist.model.HttpGetBandArray;
 
 import java.util.ArrayList;
 

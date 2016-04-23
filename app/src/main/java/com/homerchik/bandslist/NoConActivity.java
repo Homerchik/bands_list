@@ -1,4 +1,4 @@
-package com.example.homerchik.stepiccourse;
+package com.homerchik.bandslist;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.homerchik.stepiccourse.R;
 
 public class NoConActivity extends AppCompatActivity{
     private void setToolbarCaption(Toolbar tb) {

@@ -1,4 +1,4 @@
-package com.example.homerchik.stepiccourse;
+package com.homerchik.bandslist;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.homerchik.stepiccourse.imageLoader.AsyncDrawableWrapper;
-import com.example.homerchik.stepiccourse.imageLoader.Cache;
-import com.example.homerchik.stepiccourse.imageLoader.HttpGetCover;
-import com.example.homerchik.stepiccourse.model.Band;
+
+import com.example.homerchik.stepiccourse.R;
+import com.homerchik.bandslist.imageLoader.AsyncDrawableWrapper;
+import com.homerchik.bandslist.imageLoader.Cache;
+import com.homerchik.bandslist.imageLoader.HttpGetCover;
+import com.homerchik.bandslist.model.Band;
 
 public class DescriptionActivity extends AppCompatActivity {
     int WIDTH;
