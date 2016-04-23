@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Band implements Serializable{
+public class Band implements Serializable, Comparable{
     private static final long serialVersionUID = 0L;
 
     class Cover implements Serializable{
@@ -108,6 +108,11 @@ public class Band implements Serializable{
                 ", description='" + description + '\'' +
                 ", cover=" + cover +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object another) {
+        return this.getName().compareTo(((Band)another).getName());
     }
 
     @Override

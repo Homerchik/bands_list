@@ -13,6 +13,8 @@ import com.example.homerchik.stepiccourse.imageLoader.Cache;
 import com.example.homerchik.stepiccourse.R;
 import com.example.homerchik.stepiccourse.imageLoader.AsyncDrawableWrapper;
 import com.example.homerchik.stepiccourse.imageLoader.HttpGetCover;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class BandItemAdapter extends BaseAdapter {
@@ -23,7 +25,7 @@ public class BandItemAdapter extends BaseAdapter {
     Cache cache;
     int layoutId;
     LayoutInflater inflater;
-    List<Band> data;
+    List<Band> data = new ArrayList<>();
 
     public BandItemAdapter(LayoutInflater inflater, Context context, Cache cache,
                            List<Band> data, int layoutId) {

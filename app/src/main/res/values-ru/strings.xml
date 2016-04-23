@@ -5,7 +5,12 @@
     <string name="descripitonCaption">Биография</string>
     <string name="pict_url">Null</string>
     <string name="emptyCover">Empty Cover</string>
-    
+    <string name="no_con_available">Нет доступа в интернет.</string>
+    <string name="btn_refresh_con">Переподключиться.</string>
+    <string name="refresh_failed">Переподключение не удалось.</string>
+    <string name="album_song_sep">,</string>
+    <string name="album_song_dot">·</string>
+
     <plurals name="album_plurals">
         <item quantity="one">%1$d альбом</item>
         <item quantity="few">%1$d альбома</item>

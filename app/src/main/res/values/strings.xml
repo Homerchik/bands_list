@@ -7,6 +7,9 @@
     <string name="emptyCover">Empty Cover</string>
     <string name="album_song_sep">,</string>
     <string name="album_song_dot">·</string>
+    <string name="no_con_available">No connection available.</string>
+    <string name="btn_refresh_con">Reconnect</string>
+    <string name="refresh_failed">Reconnect failed</string>
 
     <plurals name="album_plurals">
         <item quantity="zero">No albums</item>

@@ -19,7 +19,7 @@ public class DescriptionActivity extends AppCompatActivity {
     private void setToolbarCaption(Toolbar tb, String text) {
         try {
             tb.setTitle(text);
-            tb.setTitleTextColor(getResources().getColor(R.color.headerColor));
+            tb.setTitleTextColor(getResources().getColor(R.color.mainText));
         } catch (Exception e) {
             e.printStackTrace();
         }

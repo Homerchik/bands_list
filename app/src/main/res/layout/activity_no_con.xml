@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_no_con_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/purple"
+    tools:context="com.example.homerchik.stepiccourse.MainActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        />
+
+    <Button
+        android:id="@+id/btn_refresh_con"
+        android:padding="20dp"
+        android:layout_centerInParent="true"
+        android:text="@string/btn_refresh_con"
+        android:textAllCaps="false"
+        android:textColor="@color/mainText"
+        android:textSize="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_above="@id/btn_refresh_con"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tw_no_con"
+        android:textSize="24dp"
+        android:textColor="@color/mainText"
+        android:text="@string/no_con_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/popup_failed_con"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</android.widget.RelativeLayout>

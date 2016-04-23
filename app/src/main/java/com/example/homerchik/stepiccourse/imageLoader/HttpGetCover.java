@@ -36,32 +36,8 @@ public class HttpGetCover extends AsyncTask<Object, Void, Bitmap> {
             opts.inPreferredConfig = Bitmap.Config.RGB_565;
             opts.inSampleSize = 1;
             opts.inScaled = true;
-//            opts.outWidth = width;
-//            opts.outHeight = heigth;
             opts.inPreferQualityOverSpeed = false;
         }
-
-//    private Bitmap getImageBitmap() {
-//            Bitmap bm = null;
-//            try {
-//                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//                con.connect();
-//                InputStream is = con.getInputStream();
-//                BufferedInputStream bis = new BufferedInputStream(is);
-//                bm = BitmapFactory.decodeStream(bis, null, opts);
-//                ImageView iw = (ImageView) findViewById(R.id.iw_big_cover);
-//                int w = getBaseContext().getResources().getDisplayMetrics().widthPixels;
-//                Log.d("WIDTH", String.valueOf(w));
-//                Log.d("WIDTH", String.valueOf(h));
-//
-//                bis.close();
-//                is.close();
-//                con.disconnect();
-//            } catch (Exception e) {
-//                Log.e("DEBUG", "Error getting bitmap", e);
-//            }
-//            return bm;
-//        }
 
         private Bitmap getBitmap(String url) {
             setImageOpts();
@@ -96,12 +72,17 @@ public class HttpGetCover extends AsyncTask<Object, Void, Bitmap> {
         protected Bitmap doInBackground(Object... params) {
             String url = (String) params[0];
             bandItem = (Band) params[1];
-
-            Bitmap bitmap = cache.getBitmapFromMemCache(bandItem.getName());
+            Bitmap bitmap = cache.getBitmapFromMemCache(url);
             if (bitmap == null) {
                 bitmap = getBitmap(url);
+//                Sometimes getBitmap throws encoding error on some files, it's stupid workaround
+                if (bitmap == null){
+                    String newUrl = url.equals(bandItem.getSmallCoverUrl()) ?
+                            bandItem.getBigCoverUrl():bandItem.getSmallCoverUrl();
+                    bitmap = getBitmap(newUrl);
+                }
             }
-            cache.addBitmapToMemCache(bandItem.getName(), bitmap);
+            cache.addBitmapToMemCache(url, bitmap);
             return bitmap;
         }
 

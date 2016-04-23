@@ -2,12 +2,15 @@ package com.example.homerchik.stepiccourse.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.example.homerchik.stepiccourse.DescriptionActivity;
+import com.example.homerchik.stepiccourse.NoConActivity;
 import com.example.homerchik.stepiccourse.R;
 import com.example.homerchik.stepiccourse.imageLoader.Cache;
 import com.google.gson.Gson;
@@ -18,6 +21,8 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import android.view.LayoutInflater;
 
 public class HttpGetBandArray extends AsyncTask<Object, Void, ArrayList<Band>>{
@@ -46,6 +51,7 @@ public class HttpGetBandArray extends AsyncTask<Object, Void, ArrayList<Band>>{
             Gson gson = new Gson();
             Type collectionType = new TypeToken<ArrayList<Band>>() {}.getType();
             modelRef = gson.fromJson(getData(con), collectionType);
+            Collections.sort(modelRef);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,19 +67,28 @@ public class HttpGetBandArray extends AsyncTask<Object, Void, ArrayList<Band>>{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Band dataToSend = bandArr.get(position);
-                Intent intent = new Intent(c, DescriptionActivity.class);
-                intent.putExtra("dataChunk", dataToSend);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                c.startActivity(intent);
+                ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo ni = cm.getActiveNetworkInfo();
+                if (ni != null && ni.isConnected()) {
+                    Band dataToSend = bandArr.get(position);
+                    Intent intent = new Intent(c, DescriptionActivity.class);
+                    intent.putExtra("dataChunk", dataToSend);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    c.startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(c, NoConActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    c.startActivity(intent);
+                }
             }
         });
-        }
+    }
 
     protected  void setupConnection(HttpURLConnection con){
         try {
-            con.setReadTimeout(10000);
-            con.setConnectTimeout(15000);
+            con.setReadTimeout(50000);
+            con.setConnectTimeout(60000);
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.connect();
@@ -83,17 +98,17 @@ public class HttpGetBandArray extends AsyncTask<Object, Void, ArrayList<Band>>{
         }
     }
 
-        protected String getData(HttpURLConnection con){
-            StringBuilder response = new StringBuilder();
-            try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                response.append(br.readLine());
-                br.close();
-            }
-            catch (Exception e){
-                Log.d(TAG, "Error getting data");
-            }
-            con.disconnect();
-            return response.toString();
+    protected String getData(HttpURLConnection con){
+        StringBuilder response = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            response.append(br.readLine());
+            br.close();
         }
+        catch (Exception e){
+            Log.d(TAG, "Error getting data");
+        }
+        con.disconnect();
+        return response.toString();
+    }
 }
